@@ -10,7 +10,12 @@
 #include "./tensor.h"
 
 namespace mshadow {
-#if MSHADOW_USE_CUDA
+#if !(MSHADOW_USE_CUDA)
+  inline void InitTensorEngine( void ){
+  }
+  inline void ShutdownTensorEngine( void ){
+  }
+#else
 template<>
 inline void InitTensorEngine<gpu>(int dev_id) {
   cudaDeviceProp prop;
