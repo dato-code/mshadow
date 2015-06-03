@@ -11,9 +11,11 @@
 
 namespace mshadow {
 #if !(MSHADOW_USE_CUDA)
-  inline void InitTensorEngine( void ){
+  template<>
+  inline void InitTensorEngine<gpu>( int dev_id ){
   }
-  inline void ShutdownTensorEngine( void ){
+  template<>
+  inline void ShutdownTensorEngine<gpu>( void ){
   }
 #else
 template<>
