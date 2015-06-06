@@ -11,6 +11,15 @@
 #include <string>
 #include <cstdarg>
 #include <cstdlib>
+
+#if USE_GRAPHLAB_LOGGING
+namespace graphlab{
+  void handle_error(const char* msg);
+  void handle_print(const char* msg);
+}
+#endif
+
+
 namespace mshadow {
 /*! \brief namespace for helper utils of the project */
 namespace utils {
@@ -34,6 +43,17 @@ inline void HandleCheckError(const char *msg) {
   fprintf(stderr, "%s\n", msg);
   exit(-1);
 }
+#elif USE_GRAPHLAB_LOGGING
+inline void HandleAssertError(const char *msg){
+  graphlab::handle_error(msg);
+}
+inline void HandleCheckError(const char *msg){
+  graphlab::handle_error(msg);
+}
+inline void HandlePrint(const char *msg){
+  graphlab::handle_print(msg);
+}
+
 #else
 // include declarations, some one must implement this
 void HandleAssertError(const char *msg);
