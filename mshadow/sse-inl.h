@@ -27,7 +27,7 @@ inline void* AlignedMallocPitch(size_t *out_pitch,
                                 size_t lspace, size_t num_line) {
   size_t pitch = ((lspace+15) >> 4) << 4;
   *out_pitch = pitch;
-#ifdef _MSC_VER
+#ifdef _MSC_VER || defined(__MINGW32__)
   void *res = _aligned_malloc(pitch * num_line, 16);
 #else
 #ifdef __APPLE__
@@ -44,7 +44,7 @@ inline void* AlignedMallocPitch(size_t *out_pitch,
  * \param ptr pointer to space to be freed
  */
 inline void AlignedFree(void *ptr) {
-#ifdef _MSC_VER
+#ifdef _MSC_VER || defined(__MINGW32__)
   _aligned_free(ptr);
 #else
   free(ptr);
