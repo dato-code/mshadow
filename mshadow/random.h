@@ -11,7 +11,7 @@
 #include "./tensor.h"
 #include "./tensor_container.h"
 
-#if _MSC_VER
+#if _WIN32
 #define rand_r(x) rand()
 #endif
 
