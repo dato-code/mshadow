@@ -15,7 +15,7 @@ namespace mshadow {
   inline void InitTensorEngine<gpu>( int dev_id ){
   }
   template<>
-  inline void ShutdownTensorEngine<gpu>( int dev_id ){
+  inline void ShutdownTensorEngine<gpu>( ){
   }
   template<>
   inline void SetDevice<gpu>(int devid) {
