@@ -16,7 +16,7 @@ template<>
 inline void InitTensorEngine<cpu>(int dev_id) {
 }
 template<>
-inline void ShutdownTensorEngine<cpu>(void) {
+inline void ShutdownTensorEngine<cpu>(int dev_id) {
 }
 
 template<>
