@@ -46,9 +46,8 @@ inline void SetDevice<gpu>(int devid) {
 }
 
 template<>
-inline void ShutdownTensorEngine<gpu>(int dev_id) {
-  SetDevice<gpu>(dev_id);
-  printf("Shutdown tensor engine %d\n", dev_id);
+inline void ShutdownTensorEngine<gpu>() {
+  printf("Shutdown tensor engine\n");
   cublasStatus_t cblas_err = cublasShutdown();
   utils::Check(cblas_err == CUBLAS_STATUS_SUCCESS, "Error shutdown cublas");
   cudaError_t err = cudaDeviceReset();
