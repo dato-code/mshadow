@@ -26,6 +26,7 @@ inline void InitTensorEngine<gpu>(int dev_id) {
   cudaDeviceProp prop;
   int device_id = 0;
   int device_count = 0;
+  printf("Init tensor engine %d\n", device_id);
   cudaGetDeviceCount(&device_count);
   utils::Check(device_count > 0,
                "Cannot find CUDA device. Please check CUDA-Configuration");
@@ -52,8 +53,6 @@ inline void ShutdownTensorEngine<gpu>() {
   printf("Shutdown tensor engine %d\n", device_id);
   cublasStatus_t cblas_err = cublasShutdown();
   utils::Check(cblas_err == CUBLAS_STATUS_SUCCESS, "Error shutdown cublas");
-  cudaError_t err = cudaDeviceReset();
-  utils::Check(err == cudaSuccess, cudaGetErrorString(err));
 }
 
 template<int dim, typename DType>
