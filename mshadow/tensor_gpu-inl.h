@@ -15,7 +15,10 @@ namespace mshadow {
   inline void InitTensorEngine<gpu>( int dev_id ){
   }
   template<>
-  inline void ShutdownTensorEngine<gpu>( void ){
+  inline void ShutdownTensorEngine<gpu>( ){
+  }
+  template<>
+  inline void SetDevice<gpu>(int devid) {
   }
 #else
 template<>
@@ -23,6 +26,7 @@ inline void InitTensorEngine<gpu>(int dev_id) {
   cudaDeviceProp prop;
   int device_id = 0;
   int device_count = 0;
+  printf("Init tensor engine %d\n", device_id);
   cudaGetDeviceCount(&device_count);
   utils::Check(device_count > 0,
                "Cannot find CUDA device. Please check CUDA-Configuration");
@@ -38,13 +42,19 @@ inline void InitTensorEngine<gpu>(int dev_id) {
   cublasInit();
 }
 template<>
-inline void ShutdownTensorEngine<gpu>(void) {
-  cublasShutdown();
-}
-template<>
 inline void SetDevice<gpu>(int devid) {
   utils::Check(cudaSetDevice(devid) == cudaSuccess, "cannot set device"); 
 }
+
+template<>
+inline void ShutdownTensorEngine<gpu>() {
+  int device_id;
+  cudaGetDevice (&device_id);  
+  printf("Shutdown tensor engine %d\n", device_id);
+  cublasStatus_t cblas_err = cublasShutdown();
+  utils::Check(cblas_err == CUBLAS_STATUS_SUCCESS, "Error shutdown cublas");
+}
+
 template<int dim, typename DType>
 inline void AllocSpace(Tensor<gpu, dim, DType> *obj, bool pad) {
   size_t pitch;

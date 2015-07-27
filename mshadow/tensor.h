@@ -449,7 +449,7 @@ inline void InitTensorEngine(int device_id = 0);
  * \tparam Device the device type
  */
 template<typename Device>
-inline void ShutdownTensorEngine(void);
+inline void ShutdownTensorEngine();
 /*!
  * \brief set the device of current thread to work on
  * \param devid the device id
