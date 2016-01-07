@@ -64,7 +64,7 @@ inline void* AlignedMallocPitch(size_t *out_pitch,
 
   size_t pitch = ((lspace + mask) >> bits) << bits;
   *out_pitch = pitch;
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(_WIN32)
   void *res = _aligned_malloc(pitch * num_line, 1 << bits);
 #else
   void *res;
@@ -82,7 +82,7 @@ inline void* AlignedMallocPitch(size_t *out_pitch,
  * \param ptr pointer to space to be freed
  */
 inline void AlignedFree(void *ptr) {
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(_WIN32)
   _aligned_free(ptr);
 #else
   free(ptr);
