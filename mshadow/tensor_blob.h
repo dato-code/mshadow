@@ -559,6 +559,29 @@ class TBlob {
     return Tensor<Device, 2, DType>(static_cast<DType*>(dptr_),
                                     shape_.FlatTo2D(), stride_, stream);
   }
+  /*!
+   * \brief return tensor in specify shape
+   * \param shape target shape
+   * \param stream the possible stream target tensor should reside on
+   * \tparam Device which device the tensor is on
+   * \tparam dim target dimension
+   * \tparam DType the type of elements in the tensor
+   * \return tensor after reshape
+   */
+  template<typename Device, int dim, typename DType>
+  inline Tensor<Device, dim, DType> GetWithShape(Shape<dim> shape,
+                                                 Stream<Device> *stream = NULL) const {
+    CHECK(Device::kDevMask == dev_mask_)
+      << "TBlob.get: device type do not match specified type";
+    CHECK(DataType<DType>::kFlag == type_flag_)
+      << "TBlob.get_with_shape: data type do not match specified type."
+      << "Expected: " << type_flag_ << " v.s. given " << DataType<DType>::kFlag;
+    CHECK_EQ(shape.Size(), this->Size())
+      << "Output size should be same";
+    return Tensor<Device, dim, DType>(static_cast<DType*>(dptr_),
+                                      shape, stride_, stream);
+  }
+
   /*! \brief return number of dimension of the tensor inside */
   inline int ndim(void) const {
     return shape_.ndim();
